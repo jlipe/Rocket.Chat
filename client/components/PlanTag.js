@@ -20,19 +20,23 @@ function PlanTag() {
 		fetchTags();
 	}, [getTags, setPlans]);
 
-	return plans.map(({ plan, background }) => (
-		<Box marginInline='x4' display='inline-block' verticalAlign='middle' key={plan}>
-			<Tag
-				style={{
-					color: '#fff',
-					backgroundColor: background,
-					textTransform: 'capitalize',
-				}}
-			>
-				{plan}
-			</Tag>
-		</Box>
-	));
+	return (
+		<>
+			{plans.map(({ plan, background }) => (
+				<Box marginInline='x4' display='inline-block' verticalAlign='middle' key={plan}>
+					<Tag
+						style={{
+							color: '#fff',
+							backgroundColor: background,
+							textTransform: 'capitalize',
+						}}
+					>
+						{plan}
+					</Tag>
+				</Box>
+			))}
+		</>
+	);
 }
 
 export default PlanTag;
