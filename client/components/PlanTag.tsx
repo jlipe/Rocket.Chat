@@ -1,20 +1,25 @@
 import { Box, Tag } from '@rocket.chat/fuselage';
 import { useSafely } from '@rocket.chat/fuselage-hooks';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 
 import { useMethod } from '../contexts/ServerContext';
 
-function PlanTag() {
-	const [plans, setPlans] = useSafely(useState([]));
+const PlanTag: FC = () => {
+	const [plans, setPlans] = useSafely(useState<{ plan: string; background: string }[]>([]));
 
 	const getTags = useMethod('license:getTags');
 
 	useEffect(() => {
 		const developmentTag = process.env.NODE_ENV === 'development' ? { name: 'development', color: '#095ad2' } : null;
 
-		const fetchTags = async () => {
+		const fetchTags = async (): Promise<void> => {
 			const tags = await getTags();
-			setPlans([developmentTag, ...tags].filter(Boolean).map((plan) => ({ plan: plan.name, background: plan.color })));
+			setPlans(
+				[developmentTag, ...tags].filter(Boolean).map((plan) => ({
+					plan: plan.name,
+					background: plan.color,
+				})),
+			);
 		};
 
 		fetchTags();
@@ -37,6 +42,6 @@ function PlanTag() {
 			))}
 		</>
 	);
-}
+};
 
 export default PlanTag;
